@@ -31,6 +31,8 @@ export const buildACC = (contractAddress: string, switchId: string) => {
   ];
 };
 
+const LIT_RPC_URL = import.meta.env.VITE_LIT_RPC_URL ?? 'http://localhost:3000';
+
 export const encryptKey = async (
   keyStr: string,
   _acc: any,
@@ -39,7 +41,7 @@ export const encryptKey = async (
   evidenceHash?: string,
   ciphertext?: string
 ) => {
-  const res = await fetch("http://localhost:3000/store-key", {
+  const res = await fetch(`${LIT_RPC_URL}/store-key`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -63,7 +65,7 @@ export const encryptKey = async (
 };
 
 export const decryptKey = async (_ciphertext: string, _dataToEncryptHash: string, _acc: any, switchId?: string) => {
-  const res = await fetch(`http://localhost:3000/get-key/${switchId}`);
+  const res = await fetch(`${LIT_RPC_URL}/get-key/${switchId}`);
   if (!res.ok) {
     throw new Error("Failed to retrieve key from Lit Simulator. Is it triggered on-chain?");
   }
